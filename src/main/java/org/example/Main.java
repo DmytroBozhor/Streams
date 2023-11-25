@@ -6,21 +6,44 @@ import java.util.List;
 import java.util.stream.Stream;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
 
+        List<String> list = getFilledList();
+
+        Stream<String> stream = list.stream().filter(s -> Integer.parseInt(s) > 9_990);
+        Iterator<String> iterator = stream.iterator();
+
+        Runnable runnable = getRunnable(list);
+        Thread thread = new Thread(runnable);
+        thread.start();
+
+        while (iterator.hasNext()) {
+            Thread.sleep(200);
+            System.out.println(iterator.next());
+        }
+
+        thread.join();
+
+    }
+
+    private static Runnable getRunnable(List<String> list) {
+        return () -> {
+            for (int i = 0; i < 10; i++) {
+                try {
+                    Thread.sleep(200);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+                list.add("" + i);
+            }
+        };
+    }
+
+    private static List<String> getFilledList() {
         List<String> list = new ArrayList<>();
         for (int i = 0; i < 10_000; i++) {
             list.add("" + i);
         }
-
-        // Streams are lazy, so we need to have a terminal method to invoke our intermediate methods
-        Stream<String> stream = list.stream().filter(s -> Integer.parseInt(s) > 9_990);
-        // We can use iterator and spliterator with streams
-        // To our luck, iterator - is a terminal method, so we can make all things work.
-        Iterator<String> iterator = stream.iterator();
-        while (iterator.hasNext()) {
-            System.out.println(iterator.next());
-        }
-
+        return list;
     }
 }
