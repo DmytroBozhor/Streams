@@ -12,6 +12,9 @@ public class Car {
         this.engineList = engineList;
     }
 
+    public Car() {
+    }
+
     public String getColor() {
         return color;
     }
@@ -38,7 +41,7 @@ public class Car {
 
     public static class CarBuilder {
 
-        private Car car;
+        private final Car car = new Car();
 
         public Car build() {
             return car;
