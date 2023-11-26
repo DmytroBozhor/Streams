@@ -31,5 +31,11 @@ public class Main {
         System.out.println(engineList);
         System.out.println(engineList1);
 
+        Car.CarBuilder carBuilder = new Car.CarBuilder();
+        Car car1 = carBuilder
+                .color("Red")
+                .engine(Collections.singletonList(new Engine(220)))
+                .build();
+
     }
 }

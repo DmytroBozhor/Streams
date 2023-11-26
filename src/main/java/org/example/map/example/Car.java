@@ -1,5 +1,6 @@
 package org.example.map.example;
 
+import java.util.Collections;
 import java.util.List;
 
 public class Car {
@@ -33,5 +34,25 @@ public class Car {
                 "color='" + color + '\'' +
                 ", engineList=" + engineList +
                 '}';
+    }
+
+    public static class CarBuilder {
+
+        private Car car;
+
+        public Car build() {
+            return car;
+        }
+
+        public CarBuilder color(String color) {
+            car.setColor(color);
+            return this;
+        }
+
+        public CarBuilder engine(List<Engine> engine) {
+            car.setEngineList(engine);
+            return this;
+        }
+
     }
 }
